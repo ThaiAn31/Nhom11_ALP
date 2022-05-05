@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "321678017683",
+    "project_id": "alpcoffee",
+    "storage_bucket": "alpcoffee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:321678017683:android:3186d19e96e150a08eb966",
+        "android_client_info": {
+          "package_name": "com.example.alp_coffee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "321678017683-dofjtiniulgshpmger6cq3g8e2saic6m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alp_coffee",
+            "certificate_hash": "017f810950911ac5e1c90d598b7a72895e7ee8ca"
+          }
+        },
+        {
+          "client_id": "321678017683-so5bqlphdqvcnd3kecqeleluqipe2n25.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZxMS_HUUNJhw9MLDHXMcVeYItagcPYv0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "321678017683-so5bqlphdqvcnd3kecqeleluqipe2n25.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

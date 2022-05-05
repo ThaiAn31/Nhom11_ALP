@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/ALP_COFFEE/app/src/main/res/drawable/vien.xml" value="0.122" />
+        <entry key="..\:/ALP_COFFEE/app/src/main/res/drawable/vien02.xml" value="0.1905" />
+        <entry key="..\:/ALP_COFFEE/app/src/main/res/font/abhaya_libre.xml" value="0.1628901239846088" />
+        <entry key="..\:/ALP_COFFEE/app/src/main/res/font/judson.xml" value="0.1628901239846088" />
+        <entry key="..\:/ALP_COFFEE/app/src/main/res/layout/activity_gd_dang_ky.xml" value="0.4" />
+        <entry key="..\:/ALP_COFFEE/app/src/main/res/layout/activity_gd_dang_nhap.xml" value="0.264" />
+        <entry key="..\:/ALP_COFFEE/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/ALP_COFFEE/app/src/main/res/layout/activity_menu.xml" value="0.2" />
+        <entry key="..\:/ALP_COFFEE/app/src/main/res/layout/activity_payment.xml" value="0.176" />
+        <entry key="..\:/ALP_COFFEE/app/src/main/res/layout/activity_profile.xml" value="0.264" />
+        <entry key="..\:/ALP_COFFEE/app/src/main/res/layout/activity_success.xml" value="0.152" />
+        <entry key="..\:/Users/nguye/Downloads/ALP_COFFEE_Nhom11-master/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/Users/nguye/Downloads/ALP_COFFEE_Nhom11-master/app/src/main/res/layout/activity_menu.xml" value="0.12291666666666666" />
+        <entry key="..\:/Users/nguye/Downloads/ALP_COFFEE_Nhom11-master/app/src/main/res/layout/activity_news.xml" value="0.264" />
+        <entry key="..\:/Users/nguye/Downloads/ALP_COFFEE_Nhom11-master/app/src/main/res/layout/activity_news2.xml" value="0.153125" />
+        <entry key="..\:/Users/nguye/Downloads/ALP_COFFEE_Nhom11-master/app/src/main/res/layout/activity_payment.xml" value="0.536" />
+        <entry key="..\:/Users/nguye/Downloads/ALP_COFFEE_Nhom11-master/app/src/main/res/layout/activity_profile.xml" value="0.136" />
+        <entry key="..\:/Users/nguye/Downloads/ALP_COFFEE_Nhom11-master/app/src/main/res/layout/activity_profile2.xml" value="0.153125" />
+        <entry key="..\:/Users/nguye/Downloads/ALP_COFFEE_Nhom11-master/app/src/main/res/layout/activity_success.xml" value="0.153125" />
+        <entry key="..\:/Users/nguye/Downloads/ALP_COFFEE_Nhom11-master/app/src/main/res/layout/fragment_menu.xml" value="0.2" />
+        <entry key="..\:/Users/nguye/Downloads/ALP_COFFEE_Nhom11-master/app/src/main/res/layout/fragment_news.xml" value="0.2" />
+        <entry key="..\:/Users/nguye/Downloads/ALP_COFFEE_Nhom11-master/app/src/main/res/layout/fragment_profile.xml" value="0.176" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/</item>
+        <item>@font/abhaya_libre</item>
+        <item>@font/judson</item>
+        <item>@font/lexend_giga</item>
+        <item>@font/marcellus_sc</item>
+        <item>@font/markazi_text</item>
+        <item>@font/oxanium</item>
+        <item>@font/petrona</item>
+        <item>@font/pridi_extralight</item>
+        <item>@font/prompt_light</item>
+    </array>
+</resources>
