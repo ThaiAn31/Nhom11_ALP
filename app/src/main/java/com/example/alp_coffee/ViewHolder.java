@@ -17,12 +17,12 @@ import com.squareup.picasso.Target;
 
 public class ViewHolder extends RecyclerView.ViewHolder {
     View mview;
-    ImageButton addBtn;
+
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
         mview = itemView;
-        addBtn = itemView.findViewById(R.id.addBtn);
+
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,10 +43,12 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         TextView mPrice = mview.findViewById(R.id.textViewPrice);
         ImageView mImage = mview.findViewById(R.id.imageViewCoffee);
 
+
         mName.setText(name);
         mPrice.setText(price);
 
         Picasso.get().load(image).into(mImage);
+
 
     }
     private ViewHolder.ClickListener mClickListener;
