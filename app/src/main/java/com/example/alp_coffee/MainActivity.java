@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,13 +33,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button menuBtn,profileBtn,newsBtn;
+    Button menuBtn, profileBtn, newsBtn;
+    ImageButton purchaseBtn, addBtn;
+    Context mContext;
     LinearLayoutManager myLYM;
     RecyclerView mRecyclerView;
     FirebaseDatabase mFirebaseDatabase;
     DatabaseReference mDatabaseReference;
     FirebaseRecyclerAdapter<Coffee, ViewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<Coffee> options;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         menuBtn = (Button) findViewById(R.id.menuBtn);
         profileBtn = (Button) findViewById(R.id.profileBtn);
         newsBtn = (Button) findViewById(R.id.newsBtn);
+        purchaseBtn = (ImageButton) findViewById(R.id.purchaseBtn);
+
+
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,18 +73,29 @@ public class MainActivity extends AppCompatActivity {
                 openNewsActivity();
             }
         });
+        purchaseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openPurchaseActivity();
+            }
+        });
 
 
+        myLYM = new LinearLayoutManager(this);
+        myLYM.setReverseLayout(true);
+        myLYM.setStackFromEnd(true);
+
+        mRecyclerView = findViewById(R.id.rvC);
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mFirebaseDatabase.getReference("Coffee");
+        showData();
+
+    }
 
 
-    myLYM = new LinearLayoutManager(this);
-    myLYM.setReverseLayout(true);
-    myLYM.setStackFromEnd(true);
-
-    mRecyclerView = findViewById(R.id.rvC);
-    mFirebaseDatabase = FirebaseDatabase.getInstance();
-    mDatabaseReference = mFirebaseDatabase.getReference("Coffee");
-    showData();
+    private void openPurchaseActivity() {
+        Intent intent = new Intent(this, Payment.class);
+        startActivity(intent);
     }
 
     private void openNewsActivity() {
@@ -94,36 +113,58 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+//    private void openPurchaseCoffeeActivity() {
+//        Intent intent = new Intent(this, Payment.class);
+//        startActivity(intent);
+//    }
 
 
     public void showData() {
-        options = new FirebaseRecyclerOptions.Builder<Coffee>().setQuery(mDatabaseReference,Coffee.class).build();
+        options = new FirebaseRecyclerOptions.Builder<Coffee>().setQuery(mDatabaseReference, Coffee.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Coffee, ViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Coffee coffee) {
-            holder.setDetail(getApplicationContext(),coffee.getName(),coffee.getPrice(),coffee.getImage());
+                holder.setDetail(getApplicationContext(), coffee.getName(), coffee.getPrice(), coffee.getImage());
+
             }
 
             @NonNull
             @Override
             public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_menu,parent,false);
+                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_menu, parent, false);
                 ViewHolder viewHolder = new ViewHolder(itemView);
+
+
+
                 viewHolder.setOnClickListener(new ViewHolder.ClickListener() {
+
                     @Override
                     public void onItemClick(View view, int position) {
+
                         Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_SHORT).show();
+
                     }
+
                 });
+
+
                 return viewHolder;
             }
+
+
         };
         mRecyclerView.setLayoutManager(myLYM);
         firebaseRecyclerAdapter.startListening();
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
 
     }
-//    public void buttonProfile(View view){
+
+    private void getItem() {
+
+    }
+
+
+    //    public void buttonProfile(View view){
 //        int id = view.getId();
 //        Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
 //    }
@@ -133,9 +174,9 @@ public class MainActivity extends AppCompatActivity {
 //    public void buttonNews(View view){
 //        Toast.makeText(this, "News", Toast.LENGTH_SHORT).show();
 //    }
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
-        if(firebaseRecyclerAdapter != null){
+        if (firebaseRecyclerAdapter != null) {
             firebaseRecyclerAdapter.startListening();
         }
     }

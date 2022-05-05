@@ -13,6 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ALP_COFFEE">
         <activity
+            android:name=".Menu"
+            android:exported="false" />
+        <activity
+            android:name=".Payment"
+            android:exported="false" />
+        <activity
             android:name=".News"
             android:exported="false" />
         <activity
