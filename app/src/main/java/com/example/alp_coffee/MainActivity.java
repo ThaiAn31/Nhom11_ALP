@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(View view, int position) {
                         Intent intent = new Intent(MainActivity.this, CoffeeDetail.class);
+                        intent.putExtra("coffeeId", firebaseRecyclerAdapter.getRef(position).getKey());
                         startActivity(intent);
                         Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_SHORT).show();
 
