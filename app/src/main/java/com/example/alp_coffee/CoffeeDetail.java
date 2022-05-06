@@ -17,8 +17,13 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +31,7 @@ import java.util.Map;
 public class CoffeeDetail extends AppCompatActivity {
     Button toCartBtn;
     Payment payment;
-
+    Coffee coffee;
     RecyclerView rvC;
     String coffeeId = "";
     TextView Name, Price;
@@ -67,26 +72,25 @@ public class CoffeeDetail extends AppCompatActivity {
     }
 
     private void loadCoffeeDetail(String coffeeId) {
-//        c.child(foodId).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                currentfood=snapshot.getValue(Food.class);
-//
-//                //Set Image
-//                Picasso.with(getBaseContext()).load(currentfood.getImage()).into(imgFood);
-//                txtPriceDetail.setText(currentfood.getPrice());
-//                txtPrice.setText(currentfood.getPrice());
-//                txtName.setText(currentfood.getName());
-//                //Lấy đc id nhưng chưa biết map qua category như nào 🙁
-//                txtCate.setText(currentfood.getMenuId());
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//
-//            }
-//        });
+        mDatabaseReference.child(coffeeId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                coffee=snapshot.getValue(Coffee.class);
+
+                //Set Image
+//                Picasso.with(getBaseContext()).load(coffee.getImage()).into(Image);
+                Picasso.get().load(coffee.getImage()).into(Image);
+                Price.setText(coffee.getPrice());
+                Name.setText(coffee.getName());
+                //Lấy đc id nhưng chưa biết map qua category như nào 🙁
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
     }
 
 

@@ -34,10 +34,6 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-
-    private void startActivity(Intent intent) {
-    }
-
     public void setDetail(Context ctx, String name, String price, String image){
         TextView mName = mview.findViewById(R.id.textViewName);
         TextView mPrice = mview.findViewById(R.id.textViewPrice);

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -23,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     Button menuBtn, profileBtn, newsBtn;
+    TextView tvName, tvPrice;
     ImageButton purchaseBtn;
     Context mContext;
     LinearLayoutManager myLYM;
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         profileBtn = (Button) findViewById(R.id.profileBtn);
         newsBtn = (Button) findViewById(R.id.newsBtn);
         purchaseBtn = (ImageButton) findViewById(R.id.purchaseBtn);
+        tvName = (TextView) findViewById(R.id.textViewName);
+        tvPrice = (TextView) findViewById(R.id.textViewPrice);
+
 
 
         menuBtn.setOnClickListener(new View.OnClickListener() {
@@ -124,16 +129,16 @@ public class MainActivity extends AppCompatActivity {
                 ViewHolder viewHolder = new ViewHolder(itemView);
 
 
-
                 viewHolder.setOnClickListener(new ViewHolder.ClickListener() {
 
                     @Override
                     public void onItemClick(View view, int position) {
                         Intent intent = new Intent(MainActivity.this, CoffeeDetail.class);
-                        intent.putExtra("coffeeId", firebaseRecyclerAdapter.getRef(position).getKey());
-                        startActivity(intent);
+                        intent.putExtra("coffeeId",firebaseRecyclerAdapter.getRef(position).getKey());
                         Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_SHORT).show();
-
+//                        intent.putExtra("Name", String.valueOf(tvName));
+//                        intent.putExtra("Price", String.valueOf(tvPrice));
+                        startActivity(intent);
                     }
 
                 });
