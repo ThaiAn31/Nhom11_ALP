@@ -27,5 +27,7 @@
     <string name="pay_up">Pay Up</string>
     <string name="todoPre">TODO</string>
     <string name="todopre">TODO</string>
+    <string name="action_search">search</string>
+    <string name="add_to_cart">Add to Cart</string>
 
 </resources>

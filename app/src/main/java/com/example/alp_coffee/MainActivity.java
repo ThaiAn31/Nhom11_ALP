@@ -2,13 +2,16 @@ package com.example.alp_coffee;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
+//import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,19 +23,22 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 public class MainActivity extends AppCompatActivity {
 
     Button menuBtn, profileBtn, newsBtn;
     TextView tvName, tvPrice;
     ImageButton purchaseBtn;
-    Context mContext;
+//    Context mContext;
     LinearLayoutManager myLYM;
     RecyclerView mRecyclerView;
     FirebaseDatabase mFirebaseDatabase;
     DatabaseReference mDatabaseReference;
     FirebaseRecyclerAdapter<Coffee, ViewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<Coffee> options;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+
+
         myLYM = new LinearLayoutManager(this);
         myLYM.setReverseLayout(true);
         myLYM.setStackFromEnd(true);
@@ -84,7 +93,9 @@ public class MainActivity extends AppCompatActivity {
         mDatabaseReference = mFirebaseDatabase.getReference("Coffee");
         showData();
 
+
     }
+
 
 
     private void openPurchaseActivity() {
@@ -129,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 ViewHolder viewHolder = new ViewHolder(itemView);
 
 
+
                 viewHolder.setOnClickListener(new ViewHolder.ClickListener() {
 
                     @Override
@@ -153,14 +165,10 @@ public class MainActivity extends AppCompatActivity {
         firebaseRecyclerAdapter.startListening();
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
 
-    }
-
-    private void getItem() {
 
     }
 
-
-    //    public void buttonProfile(View view){
+//        public void buttonProfile(View view){
 //        int id = view.getId();
 //        Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
 //    }
