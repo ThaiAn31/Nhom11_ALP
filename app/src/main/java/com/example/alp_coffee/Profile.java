@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class Profile extends AppCompatActivity {
-    Button menuBtn,profileBtn,newsBtn;
+    Button menuBtn,profileBtn,newsBtn,logoutBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +16,13 @@ public class Profile extends AppCompatActivity {
         menuBtn = (Button) findViewById(R.id.menuBtn);
         profileBtn = (Button) findViewById(R.id.profileBtn);
         newsBtn = (Button) findViewById(R.id.newsBtn);
+        logoutBtn = findViewById(R.id.logoutBtn);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    openLoginActivity();
+            }
+        });
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,6 +42,12 @@ public class Profile extends AppCompatActivity {
             }
         });
     }
+
+    private void openLoginActivity() {
+        Intent intent = new Intent(this, GD_DangNhap.class);
+        startActivity(intent);
+    }
+
     private void openNewsActivity() {
         Intent intent = new Intent(this, News.class);
         startActivity(intent);
