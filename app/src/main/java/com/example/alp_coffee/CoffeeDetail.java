@@ -100,6 +100,9 @@ public class CoffeeDetail extends AppCompatActivity {
         startActivity(intent);
 
     }
+    private void addDrink(){
+
+    }
 
 
 }

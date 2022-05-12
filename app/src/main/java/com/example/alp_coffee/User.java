@@ -1,6 +1,7 @@
 package com.example.alp_coffee;
 
 public class User {
+    private String id;
     private String userName;
     private String password;
     private String confirmPassword;
@@ -8,16 +9,28 @@ public class User {
     private String email;
     private String address;
 
-    public User(String userName, String password, String confirmPassword, String phoneNumber, String email, String address) {
+    public User() {
+    }
+
+    public User(String id, String userName, String password, String confirmPassword, String phoneNumber, String email, String address) {
+        this.id = id;
         this.userName = userName;
         this.password = password;
         this.confirmPassword = confirmPassword;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
-            }
 
-    public User() {
+
+
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUserName() {

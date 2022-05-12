@@ -92,7 +92,7 @@ public class GD_DangKy extends AppCompatActivity {
                 txtPassword_SignUp.setError("Mật khẩu phải lớn hơn hoặc bằng 6 ký tự");
                 txtConfirmpassword.setError("Mật khẩu phải lớn hơn hoặc bằng 6 ký tự");
             } else {
-               User user = new User(username, password, confirmpassword ,phonenumber ,email, address);
+
                 mAuth = FirebaseAuth.getInstance();
                 mAuth.createUserWithEmailAndPassword(email, password)
 
@@ -100,8 +100,10 @@ public class GD_DangKy extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
+                                    String id = mAuth.getUid();
+                                    User user = new User(id,username, password, confirmpassword ,phonenumber ,email, address);
                                     btnSignUp.setEnabled(true);
-                                    myRef.child(phonenumber).setValue(user);
+                                    myRef.child(id).setValue(user);
                                     Toast.makeText(GD_DangKy.this,
                                             "Đăng ký tài khoản thành công. Vui lòng đăng nhập để gọi món !!",
                                             Toast.LENGTH_SHORT).show();
