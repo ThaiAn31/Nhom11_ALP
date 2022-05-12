@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
+        String data01 = intent.getStringExtra("key");
+
         // Write a message to the database
 
         menuBtn = (Button) findViewById(R.id.menuBtn);
@@ -110,8 +113,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void openProfileActivity() {
-        Intent intent = new Intent(this, Profile.class);
-        startActivity(intent);
+        Intent intent1 = new Intent(this, Profile.class);
+        Intent intent2 = getIntent();
+        String data01 = intent2.getStringExtra("key");
+        intent1.putExtra("key1", data01);
+        startActivity(intent1);
+
     }
 
     private void openMenuActivity() {

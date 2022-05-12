@@ -68,6 +68,9 @@ public class GD_DangNhap extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(GD_DangNhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(GD_DangNhap.this, MainActivity.class);
+                    intent.putExtra("key", email);
+                    startActivity(intent);
                     nextMain();
                 } else {
                     Toast.makeText(GD_DangNhap.this, "email or password khong dung!!", Toast.LENGTH_SHORT).show();

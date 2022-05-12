@@ -31,7 +31,6 @@ public class GD_DangKy extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = database.getReference("User");
     private FirebaseAuth mAuth;
-    private User user;
 
     public GD_DangKy() {
     }

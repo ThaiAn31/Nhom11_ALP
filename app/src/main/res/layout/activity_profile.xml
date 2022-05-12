@@ -7,6 +7,28 @@
     android:layout_height="match_parent"
     android:background="#EABFCC">
 
+    <TextView
+        android:id="@+id/Email"
+        android:layout_width="195dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="40dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toTopOf="@+id/textView3"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/Phone"
+        android:layout_width="195dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="36dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:layout_constraintVertical_bias="1.0" />
+
     <Button
         android:id="@+id/profileBtn"
         android:layout_width="100dp"
@@ -132,5 +154,16 @@
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         tools:ignore="TextContrastCheck,TextContrastCheck,TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/Name"
+        android:layout_width="195dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="40dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

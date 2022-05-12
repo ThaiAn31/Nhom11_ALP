@@ -7,9 +7,17 @@ public class User {
     private String phoneNumber;
     private String email;
     private String address;
-    private User user;
 
-    public User(String username, String password, String confirmpassword, String phonenumber, String email, String adress) {
+    public User(String userName, String password, String confirmPassword, String phoneNumber, String email, String address) {
+        this.userName = userName;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+            }
+
+    public User() {
     }
 
     public String getUserName() {
@@ -58,13 +66,5 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
