@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void openSearchActivity() {
-        Intent intent = new Intent(this, Payment.class);
+        Intent intent = new Intent(this, CoffeeDetail.class);
         startActivity(intent);
     }
 
@@ -211,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void itemClick(Coffee coffee) {
                             openSearchActivity();
+                            onClickAddDrink(coffee);
                         }
                     });
                     mRecyclerView.setAdapter(coffeeAdapter);
@@ -224,6 +225,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void onClickAddDrink(Coffee coffee) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Coffee");
+
+        String pathObject = String.valueOf(coffee.getName());
+        myRef.child(pathObject).setValue(coffee, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                Toast.makeText(MainActivity.this, "Add success", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void getListCoffee() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference("Coffee");
