@@ -8,7 +8,7 @@
     android:background="#EABFCC">
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/Search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -74,10 +74,10 @@
         android:layout_marginTop="2dp"
 
         android:background="#00FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName2"
+        app:layout_constraintEnd_toEndOf="@+id/Search"
         app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintStart_toStartOf="@+id/Search"
+        app:layout_constraintTop_toBottomOf="@+id/Search" />
 
     <ImageButton
         android:id="@+id/purchaseBtn"

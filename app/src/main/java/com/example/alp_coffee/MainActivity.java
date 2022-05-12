@@ -1,6 +1,7 @@
 package com.example.alp_coffee;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,34 +10,41 @@ import androidx.recyclerview.widget.RecyclerView;
 //import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseArray;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     Button menuBtn, profileBtn, newsBtn;
     TextView tvName, tvPrice;
     ImageButton purchaseBtn;
-//    Context mContext;
-    LinearLayoutManager myLYM;
     RecyclerView mRecyclerView;
-    FirebaseDatabase mFirebaseDatabase;
-    DatabaseReference mDatabaseReference;
-    FirebaseRecyclerAdapter<Coffee, ViewHolder> firebaseRecyclerAdapter;
-    FirebaseRecyclerOptions<Coffee> options;
+    EditText txtSearch;
+    ArrayList <Coffee> arrayList;
+    CoffeeAdapter coffeeAdapter;
 
 
 
@@ -44,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = getIntent();
-        String data01 = intent.getStringExtra("key");
 
         // Write a message to the database
 
@@ -55,7 +61,28 @@ public class MainActivity extends AppCompatActivity {
         purchaseBtn = (ImageButton) findViewById(R.id.purchaseBtn);
         tvName = (TextView) findViewById(R.id.textViewName);
         tvPrice = (TextView) findViewById(R.id.textViewPrice);
+        txtSearch = findViewById(R.id.Search);
+        txtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().isEmpty()) {
+                    search(editable.toString());
+                } else {
+                    search("");
+                }
+
+            }
+        });
 
 
         menuBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,24 +109,29 @@ public class MainActivity extends AppCompatActivity {
                 openPurchaseActivity();
             }
         });
-
-
-
-
-
-        myLYM = new LinearLayoutManager(this);
-        myLYM.setReverseLayout(true);
-        myLYM.setStackFromEnd(true);
-
+        arrayList = new ArrayList<>();
         mRecyclerView = findViewById(R.id.rvC);
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference("Coffee");
-        showData();
+        coffeeAdapter = new CoffeeAdapter(arrayList, this, new CoffeeAdapter.click() {
+            @Override
+            public void itemClick(Coffee coffee) {
+                openSearchActivity();
+            }
+        });
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(coffeeAdapter);
+
+
+        getListCoffee();
 
 
     }
 
 
+
+    private void openSearchActivity() {
+        Intent intent = new Intent(this, Payment.class);
+        startActivity(intent);
+    }
 
     private void openPurchaseActivity() {
         Intent intent = new Intent(this, Payment.class);
@@ -130,66 +162,86 @@ public class MainActivity extends AppCompatActivity {
 //        startActivity(intent);
 //    }
 
-
-    public void showData() {
-        options = new FirebaseRecyclerOptions.Builder<Coffee>().setQuery(mDatabaseReference, Coffee.class).build();
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Coffee, ViewHolder>(options) {
+    private void showData(){
+        FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference mDatabaseReference = mFirebaseDatabase.getReference("Coffee");
+        mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
-            protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Coffee coffee) {
-                holder.setDetail(getApplicationContext(), coffee.getName(), coffee.getPrice(), coffee.getImage());
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
-            @NonNull
             @Override
-            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_menu, parent, false);
-                ViewHolder viewHolder = new ViewHolder(itemView);
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-
-
-                viewHolder.setOnClickListener(new ViewHolder.ClickListener() {
-
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(MainActivity.this, CoffeeDetail.class);
-                        intent.putExtra("coffeeId",firebaseRecyclerAdapter.getRef(position).getKey());
-                        Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_SHORT).show();
-//                        intent.putExtra("Name", String.valueOf(tvName));
-//                        intent.putExtra("Price", String.valueOf(tvPrice));
-                        startActivity(intent);
-                    }
-
-                });
-
-
-                return viewHolder;
             }
 
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-        };
-        mRecyclerView.setLayoutManager(myLYM);
-        firebaseRecyclerAdapter.startListening();
-        mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+            }
 
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
-//        public void buttonProfile(View view){
-//        int id = view.getId();
-//        Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
-//    }
-//    public void buttonMenu(View view){
-//        Toast.makeText(this, "Menu", Toast.LENGTH_SHORT).show();
-//    }
-//    public void buttonNews(View view){
-//        Toast.makeText(this, "News", Toast.LENGTH_SHORT).show();
-//    }
-    protected void onStart() {
-        super.onStart();
-        if (firebaseRecyclerAdapter != null) {
-            firebaseRecyclerAdapter.startListening();
-        }
+
+    private void search(String s) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = database.getReference("Coffee");
+        Query query = databaseReference.orderByChild("name").startAt(s).endAt(s + "\uf8ff");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChildren()) {
+                    arrayList.clear();
+                    for (DataSnapshot dss : snapshot.getChildren()) {
+                        Coffee alpcoffee = dss.getValue(Coffee.class);
+                        arrayList.add(alpcoffee);
+                    }
+                    CoffeeAdapter coffeeAdapter = new CoffeeAdapter(arrayList, getApplicationContext(), new CoffeeAdapter.click() {
+                        @Override
+                        public void itemClick(Coffee coffee) {
+                            openSearchActivity();
+                        }
+                    });
+                    mRecyclerView.setAdapter(coffeeAdapter);
+                    coffeeAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void getListCoffee() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = database.getReference("Coffee");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Coffee coffee = dataSnapshot.getValue(Coffee.class);
+                    arrayList.add(coffee);
+                }
+                coffeeAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }

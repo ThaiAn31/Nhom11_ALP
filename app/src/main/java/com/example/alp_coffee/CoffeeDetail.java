@@ -40,7 +40,7 @@ public class CoffeeDetail extends AppCompatActivity {
     RecyclerView mRecyclerView;
     FirebaseDatabase mFirebaseDatabase;
     DatabaseReference mDatabaseReference;
-    FirebaseRecyclerAdapter<Coffee, ViewHolder> firebaseRecyclerAdapter;
+//    FirebaseRecyclerAdapter<Coffee, ViewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<Coffee> options;
 
     @Override
