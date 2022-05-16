@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                     CoffeeAdapter coffeeAdapter = new CoffeeAdapter(arrayList, getApplicationContext(), new CoffeeAdapter.click() {
                         @Override
                         public void itemClick(Coffee coffee) {
-
+                            getDataItem(coffee);
 
                         }
                     });
