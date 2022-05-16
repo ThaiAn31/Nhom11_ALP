@@ -1,6 +1,7 @@
 package com.example.alp_coffee;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.ChildEventListener;
@@ -36,11 +38,13 @@ public class CoffeeDetail extends AppCompatActivity {
     String coffeeId = "";
     TextView Name, Price;
     ImageView Image;
+
+
     LinearLayoutManager myLYM;
     RecyclerView mRecyclerView;
     FirebaseDatabase mFirebaseDatabase;
     DatabaseReference mDatabaseReference;
-//    FirebaseRecyclerAdapter<Coffee, ViewHolder> firebaseRecyclerAdapter;
+    //    FirebaseRecyclerAdapter<Coffee, ViewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<Coffee> options;
 
     @Override
@@ -55,19 +59,29 @@ public class CoffeeDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                openPurchaseActivity();
+                onClickAddDrink(coffee);
 
             }
         });
-        //ket noi firebase
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference("Coffee");
-        if(getIntent() != null){
-            coffeeId = getIntent().getStringExtra("coffeeId");
-
-        }if(!coffeeId.isEmpty() && coffeeId != null){
-            loadCoffeeDetail(coffeeId);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
+            Toast.makeText(this, "Null!!", Toast.LENGTH_SHORT).show();
+            return;
         }
+        Coffee coffee = (Coffee) bundle.get("Coffee_Detail");
+        Glide.with(CoffeeDetail.this).load(coffee.getImage()).into(Image);
+        Name.setText(coffee.getName());
+        Price.setText(String.valueOf(coffee.getPrice()));
+
+        //ket noi firebase
+//        mFirebaseDatabase = FirebaseDatabase.getInstance();
+//        mDatabaseReference = mFirebaseDatabase.getReference("Coffee");
+//        if(getIntent() != null){
+//            coffeeId = getIntent().getStringExtra("coffeeId");
+//
+//        }if(!coffeeId.isEmpty() && coffeeId != null){
+//            loadCoffeeDetail(coffeeId);
+//        }
 
     }
 
@@ -82,7 +96,7 @@ public class CoffeeDetail extends AppCompatActivity {
                 Picasso.get().load(coffee.getImage()).into(Image);
                 Price.setText(coffee.getPrice());
                 Name.setText(coffee.getName());
-                //Lấy đc id nhưng chưa biết map qua category như nào 🙁
+
 
             }
 
@@ -92,14 +106,20 @@ public class CoffeeDetail extends AppCompatActivity {
             }
         });
     }
+    private void onClickAddDrink(Coffee coffee) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Coffee");
 
-
-    private void openPurchaseActivity() {
-
-        Intent intent = new Intent(this, Payment.class);
-        startActivity(intent);
-
+        String pathObject = String.valueOf(coffee.getName());
+        myRef.child(pathObject).setValue(coffee, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                Toast.makeText(CoffeeDetail.this, "Add success", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
     private void addDrink(){
 
     }

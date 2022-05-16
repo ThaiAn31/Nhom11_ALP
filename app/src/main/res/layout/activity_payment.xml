@@ -51,7 +51,7 @@
         app:srcCompat="@drawable/pin_1" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/addToCartBtn"
         android:layout_width="221dp"
         android:layout_height="60dp"
         android:layout_marginTop="12dp"
@@ -105,8 +105,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcVP"
-        android:layout_width="279dp"
-        android:layout_height="451dp"
+        android:layout_width="348dp"
+        android:layout_height="457dp"
         android:layout_marginTop="1dp"
         app:layout_constraintEnd_toEndOf="@+id/Search"
         app:layout_constraintHorizontal_bias="0.495"

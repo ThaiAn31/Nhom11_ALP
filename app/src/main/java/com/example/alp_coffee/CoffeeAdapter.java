@@ -45,7 +45,7 @@ public class CoffeeAdapter extends RecyclerView.Adapter<CoffeeAdapter.CoffeeView
     public CoffeeViewHoler onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_menu, parent, false);
 
-       return new CoffeeViewHoler(view,CoffeeAdapter.this);
+        return new CoffeeViewHoler(view,CoffeeAdapter.this);
 
     }
 

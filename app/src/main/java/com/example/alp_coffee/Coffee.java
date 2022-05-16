@@ -3,13 +3,13 @@ package com.example.alp_coffee;
 import java.io.Serializable;
 
 public class Coffee implements Serializable {
-String Name;
-String Price;
-String Image;
+    String Name;
+    String Price;
+    String Image;
 
-public Coffee(){
+    public Coffee(){
 
-}
+    }
 
     public String getName() {
         return Name;

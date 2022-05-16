@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         coffeeAdapter = new CoffeeAdapter(arrayList, this, new CoffeeAdapter.click() {
             @Override
             public void itemClick(Coffee coffee) {
-                openSearchActivity();
+                getDataItem(coffee);
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         getListCoffee();
+        showData();
 
 
     }
@@ -210,8 +211,8 @@ public class MainActivity extends AppCompatActivity {
                     CoffeeAdapter coffeeAdapter = new CoffeeAdapter(arrayList, getApplicationContext(), new CoffeeAdapter.click() {
                         @Override
                         public void itemClick(Coffee coffee) {
-                            openSearchActivity();
-                            onClickAddDrink(coffee);
+
+
                         }
                     });
                     mRecyclerView.setAdapter(coffeeAdapter);
@@ -226,18 +227,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void onClickAddDrink(Coffee coffee) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Coffee");
 
-        String pathObject = String.valueOf(coffee.getName());
-        myRef.child(pathObject).setValue(coffee, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                Toast.makeText(MainActivity.this, "Add success", Toast.LENGTH_SHORT).show();
-            }
-        });
+    void getDataItem(Coffee coffee) {
+        Intent intent = new Intent(this, CoffeeDetail.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Coffee_Detail", coffee);
+        intent.putExtras(bundle);
+        this.startActivity(intent);
+
     }
+
 
     private void getListCoffee() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
