@@ -4,11 +4,33 @@ import java.io.Serializable;
 
 public class Coffee implements Serializable {
     String Name;
-    String Price;
+    double Price;
     String Image;
+    String id;
 
-    public Coffee(){
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Coffee() {
+
+    }
+
+    public Coffee(String name, double price, String id) {
+        Name = name;
+        Price = price;
+        this.id = id;
+    }
+
+    public Coffee(String name, double price, String image, String id) {
+        Name = name;
+        Price = price;
+        Image = image;
+        this.id = id;
     }
 
     public String getName() {
@@ -19,11 +41,11 @@ public class Coffee implements Serializable {
         Name = name;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return Price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         Price = price;
     }
 

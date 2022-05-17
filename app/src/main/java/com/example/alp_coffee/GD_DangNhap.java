@@ -16,6 +16,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.UUID;
 
 public class GD_DangNhap extends AppCompatActivity {
     private EditText txtEmail;
@@ -67,6 +71,12 @@ public class GD_DangNhap extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    String id_user = mAuth.getUid();
+                    String id_bill = UUID.randomUUID().toString();
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference mRef = database.getReference("ram");
+                    Ram ram = new Ram(new Order(id_bill), new User(id_user));
+                    mRef.child(id_user).setValue(ram);
                     Toast.makeText(GD_DangNhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(GD_DangNhap.this, MainActivity.class);
                     intent.putExtra("key", email);

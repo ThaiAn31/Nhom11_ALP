@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,21 +32,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CoffeeDetail extends AppCompatActivity {
-    Button toCartBtn;
-    Payment payment;
-    Coffee coffee;
-    RecyclerView rvC;
-    String coffeeId = "";
-    TextView Name, Price;
+    Button toCartBtn, btnCong, btnTru;
+    TextView Name, Price, tvSL;
     ImageView Image;
 
-
-    LinearLayoutManager myLYM;
-    RecyclerView mRecyclerView;
-    FirebaseDatabase mFirebaseDatabase;
-    DatabaseReference mDatabaseReference;
-    //    FirebaseRecyclerAdapter<Coffee, ViewHolder> firebaseRecyclerAdapter;
-    FirebaseRecyclerOptions<Coffee> options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +45,8 @@ public class CoffeeDetail extends AppCompatActivity {
         Price = (TextView) findViewById(R.id.textViewPrice);
         Image = (ImageView) findViewById(R.id.imageViewCoffee);
         toCartBtn = (Button) findViewById(R.id.toCartBtn);
-        toCartBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                onClickAddDrink(coffee);
-
-            }
-        });
+        btnCong = findViewById(R.id.button3);
+        tvSL = findViewById(R.id.textView13);
         Bundle bundle = getIntent().getExtras();
         if (bundle == null) {
             Toast.makeText(this, "Null!!", Toast.LENGTH_SHORT).show();
@@ -72,56 +56,79 @@ public class CoffeeDetail extends AppCompatActivity {
         Glide.with(CoffeeDetail.this).load(coffee.getImage()).into(Image);
         Name.setText(coffee.getName());
         Price.setText(String.valueOf(coffee.getPrice()));
-
-        //ket noi firebase
-//        mFirebaseDatabase = FirebaseDatabase.getInstance();
-//        mDatabaseReference = mFirebaseDatabase.getReference("Coffee");
-//        if(getIntent() != null){
-//            coffeeId = getIntent().getStringExtra("coffeeId");
-//
-//        }if(!coffeeId.isEmpty() && coffeeId != null){
-//            loadCoffeeDetail(coffeeId);
-//        }
-
-    }
-
-    private void loadCoffeeDetail(String coffeeId) {
-        mDatabaseReference.child(coffeeId).addValueEventListener(new ValueEventListener() {
+        btnCong.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                coffee=snapshot.getValue(Coffee.class);
-
-                //Set Image
-//                Picasso.with(getBaseContext()).load(coffee.getImage()).into(Image);
-                Picasso.get().load(coffee.getImage()).into(Image);
-                Price.setText(coffee.getPrice());
-                Name.setText(coffee.getName());
-
-
+            public void onClick(View view) {
+                String soLuong = tvSL.getText().toString();
+                int soLuong2 = Integer.parseInt(soLuong) + 1;
+                tvSL.setText(String.valueOf(soLuong2));
             }
-
+        });
+        btnTru = findViewById(R.id.button2);
+        btnTru.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCancelled(DatabaseError error) {
+            public void onClick(View view) {
+                String soLuong = tvSL.getText().toString();
+                int soLuong1 = Integer.parseInt(soLuong) - 1;
+                if (soLuong1 <= 0) {
+                    tvSL.setText("1");
+                } else
+                    tvSL.setText(String.valueOf(soLuong1));
+            }
+        });
+        toCartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getIDOrder(coffee.getId());
+                Toast.makeText(CoffeeDetail.this, "Đã thêm vào giỏ hàng!!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CoffeeDetail.this, MainActivity.class);
+                startActivity(intent);
 
             }
         });
+
+
     }
-    private void onClickAddDrink(Coffee coffee) {
+
+    void getIDOrder(String id_coffee) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String id_user = mAuth.getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Coffee");
-
-        String pathObject = String.valueOf(coffee.getName());
-        myRef.child(pathObject).setValue(coffee, new DatabaseReference.CompletionListener() {
+        DatabaseReference mRef = database.getReference("ram/" + id_user);
+        mRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                Toast.makeText(CoffeeDetail.this, "Add success", Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Ram ram = snapshot.getValue(Ram.class);
+                if (ram != null) {
+                    createBill(ram.getId_Order().getId());
+                    createOrderDetail(ram.getId_Order().getId(), id_coffee);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
 
+    void createBill(String id_bill) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String id_user = mAuth.getUid();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mRef = database.getReference("order");
+        Order order = new Order(new User(id_user), id_bill);
+        mRef.child(id_bill).setValue(order);
+    }
 
-    private void addDrink(){
-
+    void createOrderDetail(String id_order, String id_coffee) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mRef = database.getReference("orderDetail");
+        String name = Name.getText().toString();
+        double price = Double.parseDouble(Price.getText().toString());
+        int soLuong = Integer.parseInt(tvSL.getText().toString());
+        OrderDetail orderDetail = new OrderDetail(new Order(id_order), new Coffee(name, price, id_coffee), soLuong);
+        mRef.child(id_order).child(id_coffee).setValue(orderDetail);
     }
 
 

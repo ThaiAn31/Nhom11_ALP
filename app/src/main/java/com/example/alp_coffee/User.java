@@ -10,6 +10,7 @@ public class User {
     private String address;
 
     public User() {
+
     }
 
     public User(String id, String userName, String password, String confirmPassword, String phoneNumber, String email, String address) {
@@ -22,7 +23,10 @@ public class User {
         this.address = address;
 
 
+    }
 
+    public User(String id) {
+        this.id = id;
     }
 
     public String getId() {
