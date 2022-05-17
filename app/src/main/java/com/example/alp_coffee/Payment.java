@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +36,7 @@ public class Payment extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkOrder();
         setContentView(R.layout.activity_payment);
         mRecyclerView = findViewById(R.id.rcVP);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(Payment.this);
@@ -213,6 +215,47 @@ public class Payment extends AppCompatActivity {
                     btnTT.setEnabled(false);
                 } else
                     btnTT.setEnabled(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void checkOrder() {
+        FirebaseUser id = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("ram/" + id.getUid());
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Ram ram = snapshot.getValue(Ram.class);
+                if (ram != null) {
+                    removeBill(ram.getId_Order().getId());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    void removeBill(String id_bill) {
+        FirebaseDatabase database1 = FirebaseDatabase.getInstance();
+        DatabaseReference mRef1 = database1.getReference("orderDetail/" + id_bill);
+        mRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                OrderDetail orderDetail = snapshot.getValue(OrderDetail.class);
+                if (orderDetail == null) {
+                    FirebaseDatabase database1 = FirebaseDatabase.getInstance();
+                    DatabaseReference mRef2 = database1.getReference("order/" + id_bill);
+                    mRef2.removeValue();
+                }
             }
 
             @Override
